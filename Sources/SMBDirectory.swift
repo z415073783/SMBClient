@@ -21,7 +21,7 @@ public struct SMBDirectory {
         self.name = String(cString: cName)
     }
 
-    internal init(name: String) {
+    public init(name: String) {
         self.name = name
     }
 

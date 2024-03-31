@@ -265,7 +265,7 @@ public class SMBSession {
 
         return nil
     }
-
+    
     @discardableResult public func downloadTaskForFile(file: SMBFile,
                                                        destinationFileURL: URL?,
                                                        delegate: SessionDownloadTaskDelegate?) -> SessionDownloadTask {
@@ -370,6 +370,20 @@ public class SMBSession {
         } else {
             return Result.success(fd)
         }
+    }
+    
+    @discardableResult public func createDirectory(newPath: String, path: SMBPath) -> Int {
+        var treeId = smb_tid(0)
+        // ### connect to share
+        let conn = self.treeConnect(volume: path.volume)
+        switch conn {
+        case .failure:
+            return -1
+        case .success(let t):
+            treeId = t
+        }
+        
+        return Int(smb_directory_create(self.rawSession, treeId, newPath))
     }
 
     internal func fileMove(volume: SMBVolume, oldPath: String, newPath: String) -> SMBMoveError? {
