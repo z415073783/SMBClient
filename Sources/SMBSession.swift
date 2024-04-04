@@ -32,7 +32,7 @@ public class SMBSession {
     // tasks
     var downloadTasks: [SessionDownloadTask] = []
     var uploadTasks: [SessionUploadTask] = []
-    lazy var taskQueue: OperationQueue = {
+    public lazy var taskQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
         return queue
