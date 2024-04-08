@@ -409,7 +409,20 @@ public class SMBSession {
         }
         return nil
     }
-
+    // 删除已存在文件
+    public func deleteFile(file: SMBFile) -> Bool {
+        guard let path = file.path.directories.first?.name else {
+            return false
+        }
+        let result = fileDelete(volume: file.path.volume, path: path + "/" + file.name)
+        switch result {
+        case .none:
+            return true
+        case .some(_):
+            return false
+        }
+    }
+    
     internal func fileDelete(volume: SMBVolume, path: String) -> SMBDeleteError? {
         var treeId = smb_tid(0)
 
